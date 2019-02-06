@@ -24,6 +24,18 @@ html {
   font-weight: 700;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
+.card > .user {
+  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+}
+.card > .user > .right {
+  padding: 7px;
+}
+.right {
+  float: right;
+}
+.clearfix {
+  clear: both;
+}
 .link > a {
   color: #2980b9;
   text-decoration: none;
@@ -33,4 +45,36 @@ html {
   color: #888;
   margin: 0px 5px;
   font-size: 18px;
+}
+.btn {
+  display: inline-block;
+  border: 0px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  outline: 0 transparent;
+  transition: 0.225s;
+}
+.btn:hover {
+  background: #bbb;
+}
+.sprint {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+}
+.sprint > .sprint-name {
+  font-size: 18px;
+  font-weight: 400;
+  text-decoration: none;
+  color: #2980b9;
+  font-weight: bold;
+}
+.sprint > .sprint-data {
+  float: right;
+  font-weight: bold;
+}
+.no-sprints {
+  padding: 20px;
+  color: #777;
+  text-align: center;
 }

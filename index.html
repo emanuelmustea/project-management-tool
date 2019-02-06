@@ -9,13 +9,33 @@
   </head>
   <body>
     <div class="card">
+      <div class="user">
+        <span class="right"
+          >👤 <strong class="userName">No User Logged In</strong></span
+        >
+        <div class="clearfix"></div>
+      </div>
       <div class="card-header link">
-        <span>All projects</span>
-        <a href="#" class="link-build">Nume project</a>
+        <span>Project</span>
+        <!--a href="#" class="link-build">Sprint Name</a-->
+        <button class="btn right" onClick="Screen('.createSprint')">
+          <b>+</b> Create Sprint
+        </button>
       </div>
       <div class="project">
-        <div class="allSprints" style="display: block"></div>
-        <div class="sprint" style="display: none"></div>
+        <div class="screen allSprints" style="display: block">
+          <div class="sprint">
+            <a href="#" class="sprint-name">Sprint 1 name </a>
+            <span class="sprint-data">
+              🔵 3 Features<br />
+              🔴 3 Bugs <br />⚫️ 0 Tasks</span
+            >
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="screen createSprint" style="display:none">
+          dasdasdsadas
+        </div>
       </div>
     </div>
     <script src="logic.js"></script>
