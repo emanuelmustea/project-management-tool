@@ -6,11 +6,13 @@ var status = [
   "Resolved",
   "Ready for Testing"
 ];
+
 var users = []; // an array of all users
 var sprints = []; // an array containing all sprints
 var issues = []; // an array containing all issues
 var tasks = []; // an array containing all issues
 var comments = []; // an array containing all issues
+
 // function that generates an unique id per application
 ID = () => {
   if (typeof ID.id == "undefined") ID.id = 1;
@@ -23,7 +25,6 @@ ID = () => {
  * constructor arguments: 
     -name
  */
-
 class User {
   constructor(name) {
     this.id = ID();
@@ -33,6 +34,7 @@ class User {
     return this.id;
   }
 }
+
 /* Issue class
  * consturctor arguments: 
     -type (FEATURE, BUG or TASK)
@@ -64,6 +66,16 @@ class Issue {
   get ID() {
     return this.id;
   }
+  get getComments(onlyCount = false) {
+    //if count is true will return only comments count
+    if (!onlyCount) return this.comments;
+    return this.comments.length;
+  }
+  get getSubTasks(onlyCount = false) {
+    //if count is true will return only tasks count
+    if (!onlyCount) return this.tasks;
+    return this.tasks.length;
+  }
   update(newStatus = this.status) {
     //change updatedAt and updateCount
     this.updatedAt = new Date();
@@ -91,10 +103,10 @@ class Issue {
   }
   createComment() {}
 }
+
 /* Project class
  * constructor arguments:null
  */
-
 class Project {
   constructor() {
     this.id = ID();
@@ -102,6 +114,11 @@ class Project {
   }
   get ID() {
     return this.id;
+  }
+  get getSprints(onlyCount = false) {
+    //if count is true will return only sprints count
+    if (!onlyCount) return this.sprints;
+    return this.sprints.length;
   }
   //creates Sprint and add it's id to sprints list
   createSprint(name) {
@@ -115,6 +132,7 @@ class Project {
     return sprint.ID;
   }
 }
+
 /* Sprint class
  * constructor arguments: 
     -name
@@ -144,6 +162,7 @@ class Sprint {
     return issue.ID;
   }
 }
+
 /* Comment class
  * constructor arguments: 
     -name
@@ -157,6 +176,7 @@ class Comment {
     return this.id;
   }
 }
+
 var project = new Project();
 project.createSprint("mama");
 sprints[0].createIssue("BUG", "Mama mia", 1, 1, "Description of this issue");
