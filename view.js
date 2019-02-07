@@ -41,25 +41,73 @@ buildSprintsHTML = () => {
     }
   }
 };
+//save filters function
+saveFilters = () => {
+  var sprints = document.querySelectorAll(".sprintfiltercheck");
+  var status = document.querySelectorAll(".statusfiltercheck");
+  var sprintList = [];
+  var statusList = [];
+  for (let sprint of sprints) {
+    if (sprint.checked) sprintList.push(parseInt(sprint.getAttribute("data")));
+  }
+  for (let stat of status) {
+    if (stat.checked) statusList.push(parseInt(stat.getAttribute("data")));
+  }
+  console.log(status, statusList);
+  if (sprintList.length == 0 && statusList == 0) buildIssuesHTML();
+  else if (sprintList.length > 0 && statusList.length == 0)
+    buildIssuesHTML({ sprint: sprintList, status: false });
+  else if (sprintList.length == 0 && statusList.length > 0)
+    buildIssuesHTML({ sprint: false, status: statusList });
+  else if (sprintList.length > 0 && statusList.length > 0)
+    buildIssuesHTML({ sprint: sprintList, status: statusList });
+};
+//display filters HTML
+buildFilterIssuesHTML = () => {
+  var target = queryTarget(".filterIssues");
+  target.innerHTML = template.filterIssues(sprints, status);
+};
 //make a list of all issues with the poroper html template
-buildIssuesHTML = () => {
-  target = queryTarget(".allIssues");
-  if (sprints.length == 0) target.innerHTML = template.noIssues();
+buildIssuesHTML = (filter = false) => {
+  console.log(filter);
+  var target = queryTarget(".allIssues");
+  if (issues.length == 0) target.innerHTML = template.noIssues();
   else {
+    queryTarget(".filterIssues").style.display = "block";
+    if (!filter) buildFilterIssuesHTML();
     target.innerHTML = "";
+    var i = 0;
     for (issue of issues) {
-      target.innerHTML += template.issue({
-        name: issue.name,
-        type: issue.type,
-        status: status[issue.status],
-        sprint: issue.sprint,
-        sprintName: getSprint(issue.sprint).getName,
-        createdBy: getUser(issue.createdBy).getName,
-        createdAt: issue.createdAt,
-        updatedAt: issue.updatedAt,
-        description: issue.description
-      });
-      console.log(status[issue.status], issue.status, status);
+      var allowed = true;
+      if (filter) {
+        var allowed = false;
+        var first = false;
+        var second = false;
+        if (filter.sprint) {
+          if (filter.sprint.indexOf(issue.sprint) != -1) first = true;
+          else first = false;
+        } else first = true;
+        if (filter.status) {
+          if (filter.status.indexOf(issue.status) != -1) second = true;
+          else second = false;
+        } else second = true;
+        if (first && second) allowed = true;
+      }
+      if (allowed) {
+        target.innerHTML += template.issue({
+          name: issue.name,
+          type: issue.type,
+          status: status[issue.status],
+          sprint: issue.sprint,
+          sprintName: getSprint(issue.sprint).getName,
+          createdBy: getUser(issue.createdBy).getName,
+          createdAt: issue.createdAt,
+          updatedAt: issue.updatedAt,
+          description: issue.description
+        });
+        i++;
+      }
+      if (i == 0) target.innerHTML = template.noIssues();
     }
   }
 };

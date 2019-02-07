@@ -5,6 +5,9 @@ var template = {
   noSprints: () => {
     return `<div class="no-sprints">No sprints yet</div>`;
   },
+  noIssues: () => {
+    return `<div class="no-issues">No issues matching your filters</div>`;
+  },
   sprint: obj => {
     return `<div class="sprint">
         <a href="#" class="sprint-name" onClick="buildSingleSprint(${
@@ -67,7 +70,7 @@ var template = {
   </div>
   <div
     class="issues"
-    onClick="buildIssuesHTML();Screen('.allIssues');updateBreadCrumb([{name:'Project', link: '.overview'}, {name: 'All issues'}])"
+    onClick="Screen('.allIssues');buildIssuesHTML();updateBreadCrumb([{name:'Project', link: '.overview'}, {name: 'All issues'}])"
   >
     <a href="#">Issues</a>(${obj.issues})
   </div>`;
@@ -95,6 +98,33 @@ var template = {
   >
     Cancel
   </button>`;
+  },
+  filterIssues: (sprints, statuses) => {
+    var sprintList = ``;
+    var statusList = ``;
+    for (let sprint of sprints) {
+      sprintList += `<label> <input class="sprintfiltercheck" type="checkbox" data="${
+        sprint.ID
+      }" />${sprint.getName}</label><br />`;
+    }
+    var i = 0;
+    for (let stat of statuses) {
+      statusList += `<label> <input class="statusfiltercheck" type="checkbox" data="${i}" />${stat}</label><br />`;
+      i++;
+    }
+    return `<div class="bysprints">
+      <b>Filter by sprint</b>
+      <br />
+      ${sprintList}
+    </div>
+    <div class="bystatus">
+      <b>Filter by status</b>
+      <br />
+      ${statusList}
+    </div>
+    <button class="btn" onClick="buildIssuesHTML()">Clear filters</button>
+    <button class="btn" onclick="saveFilters()">Save filters</button>
+    `;
   },
   createIssue: obj => {
     var assigneeList = "";

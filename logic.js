@@ -1,4 +1,4 @@
-var status = [
+const status = [
   "New",
   "In progress",
   "Feedback",
@@ -6,7 +6,6 @@ var status = [
   "Resolved",
   "Ready for Testing"
 ];
-
 var users = []; // an array of all users
 var sprints = []; // an array containing all sprints
 var issues = []; // an array containing all issues

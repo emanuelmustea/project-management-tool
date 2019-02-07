@@ -104,7 +104,8 @@ select {
   float: right;
   font-weight: bold;
 }
-.no-sprints {
+.no-sprints,
+.no-issues {
   padding: 20px;
   color: #777;
   text-align: center;
@@ -135,7 +136,8 @@ select {
   margin: 5px 0px;
   border-radius: 5px;
 }
-.issue {
+.issue,
+.filterIssues {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
@@ -175,4 +177,11 @@ select {
 }
 .issue > .createdby {
   font-size: 14px;
+}
+.bysprints,
+.bystatus {
+  display: inline-block;
+  width: 49%;
+  padding: 0px 20px;
+  vertical-align: top;
 }
