@@ -214,8 +214,32 @@ buildUpdateIssue = id => {
     { name: "Update issue '" + issue.name + "'" }
   ]);
 };
+buildCreateSubtask = id => {
+  console.log(id);
+};
 //function for updating the issue
-updateIssue = id => {};
+updateIssue = id => {
+  var name = queryTarget(".update-name-input").value;
+  var description = queryTarget(".update-description-input").value;
+  var sprint = queryTarget(".update-sprint-input").value;
+  var status = queryTarget(".update-status-input").value;
+  let validation = validateIssue(name, description, "aaa", "aaa");
+  var error = queryTarget(".updateIssuesError");
+  if (validation.length > 0) {
+    error.innerHTML =
+      validation + "<br>Please correct all errors before updating again";
+    error.style.display = "block";
+  } else {
+    error.style.display = "none";
+    getIssue(id).update(
+      name,
+      sprint,
+      status,
+      description.replace(/(?:\r\n|\r|\n)/g, "<br>")
+    );
+    buildSingleIssue(id);
+  }
+};
 //switches between multiple divs having class .screen and another "selector" class
 Screen = selector => {
   var screens = document.querySelectorAll(".screen");

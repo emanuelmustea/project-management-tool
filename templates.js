@@ -245,17 +245,28 @@ var template = {
     var sprintList = "";
     var statusList = "";
     for (let sprint of obj.sprints) {
-      sprintList += `<option value="${sprint.id}">${sprint.name}</option>`;
+      if (sprint.id == obj.sprint) {
+        sprintList += `<option value="${sprint.id}" selected>${
+          sprint.name
+        }</option>`;
+      } else {
+        sprintList += `<option value="${sprint.id}">${sprint.name}</option>`;
+      }
     }
     var i = 0;
     for (let stat of status) {
-      statusList += `<option value="${i}">${stat}</option>`;
+      if (i == status.indexOf(obj.status)) {
+        statusList += `<option value="${i}" selected>${stat}</option>`;
+      } else {
+        statusList += `<option value="${i}">${stat}</option>`;
+      }
+      i++;
     }
     return `
     <label>
       Name
       <input
-        class="input name-input"
+        class="input update-name-input"
         type="text"
         placeholder=""
         value="${obj.name}"
@@ -264,25 +275,25 @@ var template = {
     </label>
     <label>
       Sprint
-      <select class="issue-sprint-input" selected="${obj.sprint}">
+      <select class="update-sprint-input">
         ${sprintList}
       </select>
     </label>
     <label>
       Status
-      <select class="issue-sprint-input" selected="${obj.status}">
+      <select class="update-status-input">
         ${statusList}
       </select>
     </label>
     <label>
       Description
-      <textarea class="input textarea description-input" >${obj.description.replace(
+      <textarea class="input textarea update-description-input" >${obj.description.replace(
         /\<br\>/g,
         "\n"
       )}</textarea>
     </label>
     <br />
-    <div class="issuesError" style="display:none"></div>
+    <div class="updateIssuesError" style="display:none"></div>
     <button
       class="btn"
       onClick="updateIssue(${obj.id})"

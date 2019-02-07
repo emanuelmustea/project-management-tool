@@ -80,12 +80,15 @@ class Issue {
   get getSubTasks() {
     return this.tasks;
   }
-  update(newStatus = this.status) {
+  update(name, sprint, status, description) {
     //change updatedAt and updateCount
     this.updatedAt = new Date();
     this.updateCount++;
     //change the status in case of change
-    this.status = newStatus;
+    this.status = status;
+    this.name = name;
+    this.sprint = sprint;
+    this.description = description;
   }
   createSubTask(name, description) {
     if (this.type == "TASK") return; //TASKS can't contain subtasks
