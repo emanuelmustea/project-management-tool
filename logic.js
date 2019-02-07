@@ -33,6 +33,9 @@ class User {
   get ID() {
     return this.id;
   }
+  get getName() {
+    return this.name;
+  }
 }
 
 /* Issue class
