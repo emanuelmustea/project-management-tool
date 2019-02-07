@@ -89,7 +89,8 @@ select {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
-.createIssue {
+.createIssue,
+.updateIssue {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
@@ -184,4 +185,7 @@ select {
   width: 49%;
   padding: 0px 20px;
   vertical-align: top;
+}
+.subsprint {
+  cursor: pointer;
 }

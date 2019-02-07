@@ -40,7 +40,7 @@ var template = {
     <span class="type right ${obj.type}">${obj.type}</span>
     <span class="status right ${obj.status}">${obj.status}</span>
     <div class="clearfix"></div>
-    <span class="subsprint" onClick="buildSingleSprint(${obj.sprint}"
+    <span class="subsprint" onClick="buildSingleSprint(${obj.sprint})"
       >${obj.sprintName}</span
     >
     <span class="createdby"
@@ -52,6 +52,52 @@ var template = {
     </div>
     <div class="clearfix"></div>
   </div>`;
+  },
+  singleIssue: obj => {
+    if (obj.updatedAt == null) {
+      var updatedAt = ``;
+    } else {
+      var updatedAt = `<br />
+          Updated on <b>${obj.updatedAt}</b>`;
+    }
+    if (obj.subtasks == null && obj.type != "TASK") {
+      var subtasks = `<h4>Subtasks</h4>
+      <div class="no-issues">No subtasks</div>`;
+      var createSubTask = `<button class="btn" onClick="buildCreateSubtask(${
+        obj.id
+      })"><b>+</b> Create Subtask</button>`;
+    } else if (obj.type == "TASK") {
+      var subtasks = "";
+      var createSubTask = "";
+    } else {
+      var subtasks = obj.subtasks;
+      var createSubTask = `<button class="btn" onClick="buildCreateSubtask(${
+        obj.id
+      })"><b>+</b> Create Subtask</button>`;
+    }
+    return `<div class="issue">
+      <span class="type right ${obj.type}">${obj.type}</span>
+      <span class="status right ${obj.status}">${obj.status}</span>
+      <div class="clearfix"></div>
+      <span class="subsprint" onClick="buildSingleSprint(${obj.sprint})"
+        >${obj.sprintName}</span
+      >
+      <span class="createdby"
+        >Created by <b>${obj.createdBy}</b> on <b>${obj.createdAt}</b>
+        ${updatedAt}
+      </span><br>
+      <span>Assignee: <b>${obj.assignee}</b></span><br>
+      <div class="description">
+        ${obj.description}
+      </div>
+      <br>
+      <button class="btn" onclick="buildUpdateIssue(${
+        obj.id
+      });">Update issue</button>
+      ${createSubTask}
+      <br>
+      ${subtasks}
+    </div>`;
   },
   breadcrumbLink: obj => {
     return `<a href="#" class="link-build" onClick='Screen("${
@@ -147,50 +193,105 @@ var template = {
       }
     }
     return `<label>
+    Name
+    <input
+      class="input name-input"
+      type="text"
+      placeholder=""
+      autofocus
+    />
+  </label>
+  <label>
+    Type
+    <select value="FEATURE" class="type-input">
+      <option value="FEATURE">Feature </option>
+      <option value="BUG">Bug </option>
+      <option value="TASK">Task </option>
+    </select>
+  </label>
+  <label>
+    Assignee
+    <select class="assignee-input">
+      <option value="0" disabled selected>Please select a user</option>
+      ${assigneeList}
+    </select>
+  </label>
+  <label>
+    Sprint
+    <select class="issue-sprint-input">
+      ${sprintList}
+    </select>
+  </label>
+  <label>
+    Description
+    <textarea class="input textarea description-input"></textarea>
+  </label>
+  <br />
+  <div class="issuesError" style="display:none"></div>
+  <button
+    class="btn"
+    onClick="createIssue()"
+  >
+    Save
+  </button>
+  <button
+    class="btn"
+    onCLick="cancelIssue()"
+  >
+    Cancel
+  </button>`;
+  },
+  updateIssue: obj => {
+    var sprintList = "";
+    var statusList = "";
+    for (let sprint of obj.sprints) {
+      sprintList += `<option value="${sprint.id}">${sprint.name}</option>`;
+    }
+    var i = 0;
+    for (let stat of status) {
+      statusList += `<option value="${i}">${stat}</option>`;
+    }
+    return `
+    <label>
       Name
       <input
         class="input name-input"
         type="text"
         placeholder=""
+        value="${obj.name}"
         autofocus
       />
     </label>
     <label>
-      Type
-      <select value="FEATURE" class="type-input">
-        <option value="FEATURE">Feature </option>
-        <option value="BUG">Bug </option>
-        <option value="TASK">Task </option>
-      </select>
-    </label>
-    <label>
-      Assignee
-      <select class="assignee-input">
-        <option value="0" disabled selected>Please select a user</option>
-        ${assigneeList}
-      </select>
-    </label>
-    <label>
       Sprint
-      <select class="issue-sprint-input">
+      <select class="issue-sprint-input" selected="${obj.sprint}">
         ${sprintList}
       </select>
     </label>
     <label>
+      Status
+      <select class="issue-sprint-input" selected="${obj.status}">
+        ${statusList}
+      </select>
+    </label>
+    <label>
       Description
-      <textarea class="input textarea description-input"></textarea>
+      <textarea class="input textarea description-input" >${obj.description.replace(
+        /\<br\>/g,
+        "\n"
+      )}</textarea>
     </label>
     <br />
     <div class="issuesError" style="display:none"></div>
     <button
       class="btn"
-      onClick="createIssue()"
+      onClick="updateIssue(${obj.id})"
     >
       Save
     </button>
     <button
       class="btn"
-      onCLick="cancelIssue()"
+      onCLick="buildSingleIssue(${obj.id})"
     >
       Cancel
     </button>`;

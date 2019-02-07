@@ -53,8 +53,7 @@ saveFilters = () => {
   for (let stat of status) {
     if (stat.checked) statusList.push(parseInt(stat.getAttribute("data")));
   }
-  console.log(status, statusList);
-  if (sprintList.length == 0 && statusList == 0) buildIssuesHTML();
+  if (sprintList.length == 0 && statusList.length == 0) buildIssuesHTML();
   else if (sprintList.length > 0 && statusList.length == 0)
     buildIssuesHTML({ sprint: sprintList, status: false });
   else if (sprintList.length == 0 && statusList.length > 0)
@@ -69,7 +68,6 @@ buildFilterIssuesHTML = () => {
 };
 //make a list of all issues with the poroper html template
 buildIssuesHTML = (filter = false) => {
-  console.log(filter);
   var target = queryTarget(".allIssues");
   if (issues.length == 0) target.innerHTML = template.noIssues();
   else {
@@ -95,6 +93,7 @@ buildIssuesHTML = (filter = false) => {
       }
       if (allowed) {
         target.innerHTML += template.issue({
+          id: issue.ID,
           name: issue.name,
           type: issue.type,
           status: status[issue.status],
@@ -141,8 +140,82 @@ buildCreateSprintHTML = () => {
 };
 //builds HTML code for given sprint
 buildSingleSprint = id => {
+  var sprint = getSprint(id);
+  var target = queryTarget(".singleSprint");
   Screen(".singleSprint");
+  updateBreadCrumb([
+    { name: "Project", link: ".overview" },
+    { name: sprint.getName }
+  ]);
+  var i = 0;
+  target.innerHTML = "";
+  for (let issue of issues) {
+    if (issue.sprint == id) {
+      target.innerHTML += template.issue({
+        id: issue.ID,
+        name: issue.name,
+        type: issue.type,
+        status: status[issue.status],
+        sprint: issue.sprint,
+        sprintName: getSprint(issue.sprint).getName,
+        createdBy: getUser(issue.createdBy).getName,
+        createdAt: issue.createdAt,
+        updatedAt: issue.updatedAt,
+        description: issue.description
+      });
+    }
+    i++;
+  }
+  if (i == 0) {
+    target.innerHTML = template.noIssues();
+    var target = queryTarget(".singleIssue");
+  }
 };
+//builds code for a single issue with given id
+buildSingleIssue = id => {
+  var issue = getIssue(id);
+  var target = queryTarget(".singleIssue");
+  Screen(".singleIssue");
+  target.innerHTML = template.singleIssue({
+    id: issue.ID,
+    name: issue.name,
+    type: issue.type,
+    status: status[issue.status],
+    sprint: issue.sprint,
+    assignee: getUser(issue.assignee).getName,
+    sprintName: getSprint(issue.sprint).getName,
+    createdBy: getUser(issue.createdBy).getName,
+    createdAt: issue.createdAt,
+    updatedAt: issue.updatedAt,
+    description: issue.description,
+    subtasks: null
+  });
+  updateBreadCrumb([
+    { name: "Project", link: ".overview" },
+    { name: "Issue '" + issue.name + "'" }
+  ]);
+};
+//build code for issue update screen by given id
+buildUpdateIssue = id => {
+  var issue = getIssue(id);
+  var target = queryTarget(".updateIssue");
+  Screen(".updateIssue");
+  target.innerHTML = template.updateIssue({
+    id: issue.ID,
+    name: issue.name,
+    status: status[issue.status],
+    sprint: issue.sprint,
+    sprints: sprints,
+    createdAt: issue.createdAt,
+    description: issue.description
+  });
+  updateBreadCrumb([
+    { name: "Project", link: ".overview" },
+    { name: "Update issue '" + issue.name + "'" }
+  ]);
+};
+//function for updating the issue
+updateIssue = id => {};
 //switches between multiple divs having class .screen and another "selector" class
 Screen = selector => {
   var screens = document.querySelectorAll(".screen");
@@ -183,14 +256,21 @@ updateBreadCrumb = array => {
 };
 //search sprints by id and returns a sprint object
 getSprint = id => {
-  for (sprint of sprints) {
+  for (let sprint of sprints) {
     if (sprint.ID == id) return sprint;
+  }
+  return null;
+};
+//search issues by id and returns an issue object
+getIssue = id => {
+  for (let issue of issues) {
+    if (issue.ID == id) return issue;
   }
   return null;
 };
 //search user by id and returns a user object
 getUser = id => {
-  for (user of users) {
+  for (let user of users) {
     if (user.ID == id) return user;
   }
   return null;
