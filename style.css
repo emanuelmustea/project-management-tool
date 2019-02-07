@@ -1,11 +1,12 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+
 html {
   background: #ecf0f1;
 }
 * {
   box-sizing: border-box;
   color: #333;
-  font-family: "Lato";
+  font-family: "Roboto", sans-serif;
 }
 .card {
   position: absolute;
@@ -133,4 +134,45 @@ select {
   padding: 10px 10px;
   margin: 5px 0px;
   border-radius: 5px;
+}
+.issue {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+}
+.issue > .issue-name {
+  font-size: 18px;
+  font-weight: 400;
+  text-decoration: none;
+  color: #2980b9;
+  font-weight: bold;
+}
+.issue > .type,
+.issue > .status {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 0px 2px;
+  border-radius: 2px;
+  background: #bbb;
+  font-size: 14px;
+  font-weight: 500;
+}
+.issue > .type.FEATURE {
+  background: #16a085;
+  color: #fff;
+}
+.issue > .type.BUG {
+  color: #fff;
+  background: #c0392b;
+}
+.issue > .type.TASK {
+  color: #fff;
+  background: #2c3e50;
+}
+.issue > .subsprint {
+  display: block;
+  color: #2980b9;
+  font-size: 14px;
+}
+.issue > .createdby {
+  font-size: 14px;
 }

@@ -20,6 +20,36 @@ var template = {
         <div class="clearfix"></div>
         </div>`;
   },
+  issue: obj => {
+    if (obj.updatedAt == null) {
+      var updatedAt = ``;
+    } else {
+      var updatedAt = `<br />
+        Updated on <b>${obj.updatedAt}</b>`;
+    }
+    return `<div class="issue">
+    <a
+      href="#"
+      class="issue-name"
+      onClick="buildSingleIssue(${obj.id})"
+      >${obj.name}</a
+    >
+    <span class="type right ${obj.type}">${obj.type}</span>
+    <span class="status right ${obj.status}">${obj.status}</span>
+    <div class="clearfix"></div>
+    <span class="subsprint" onClick="buildSingleSprint(${obj.sprint}"
+      >${obj.sprintName}</span
+    >
+    <span class="createdby"
+      >Created by <b>${obj.createdBy}</b> on <b>${obj.createdAt}</b>
+      ${updatedAt}
+    </span>
+    <div class="description">
+     ${obj.description}
+    </div>
+    <div class="clearfix"></div>
+  </div>`;
+  },
   breadcrumbLink: obj => {
     return `<a href="#" class="link-build" onClick='Screen("${
       obj.link

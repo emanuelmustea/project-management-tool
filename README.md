@@ -2,6 +2,8 @@
 
 By Emanuel Mustea
 
-The logic behind the app can be found in `logic.js`
+`logic.js` contains all models of the application. The logic part doesn't contains any HTML code and doesn't change any UI elements. Can be used without the UI part.
 
-The visual interface(UI) can be found in `view.js`
+`view.js` contains the UI script. This part updates the UI but doesn't contain any HTML code or models. Can't be used without `templates.js` part.
+
+`templates.js` contains an object of funtions that builds the HTML code based on a given object. Usually this part doesn't contain any statements but for simplifying the code some `for... of` and `if... else` were used (ex: select options).

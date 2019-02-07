@@ -41,12 +41,26 @@ buildSprintsHTML = () => {
     }
   }
 };
+//make a list of all issues with the poroper html template
 buildIssuesHTML = () => {
   target = queryTarget(".allIssues");
   if (sprints.length == 0) target.innerHTML = template.noIssues();
   else {
     target.innerHTML = "";
-    target.innerHTML += template.issue();
+    for (issue of issues) {
+      target.innerHTML += template.issue({
+        name: issue.name,
+        type: issue.type,
+        status: status[issue.status],
+        sprint: issue.sprint,
+        sprintName: getSprint(issue.sprint).getName,
+        createdBy: getUser(issue.createdBy).getName,
+        createdAt: issue.createdAt,
+        updatedAt: issue.updatedAt,
+        description: issue.description
+      });
+      console.log(status[issue.status], issue.status, status);
+    }
   }
 };
 //builds the HTML for overview(default) screen
@@ -123,6 +137,13 @@ updateBreadCrumb = array => {
 getSprint = id => {
   for (sprint of sprints) {
     if (sprint.ID == id) return sprint;
+  }
+  return null;
+};
+//search user by id and returns a user object
+getUser = id => {
+  for (user of users) {
+    if (user.ID == id) return user;
   }
   return null;
 };
