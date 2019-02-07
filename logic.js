@@ -66,6 +66,12 @@ class Issue {
   get ID() {
     return this.id;
   }
+  get getSprint() {
+    return this.sprint;
+  }
+  get getType() {
+    return this.type;
+  }
   get getComments() {
     return this.comments;
   }
@@ -138,6 +144,9 @@ class Sprint {
   }
   get ID() {
     return this.id;
+  }
+  get getName() {
+    return this.name;
   }
   //creates Issue and add it to global Issues variable
   createIssue(type, name, createdBy, assignee, description) {

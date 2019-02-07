@@ -32,14 +32,24 @@
           <label>
             Sprint name
             <input
-              class="input"
+              class="input sprint-input"
               type="text"
               placeholder="enter the name of the sprint"
             />
           </label>
 
-          <button class="btn">Save</button>
-          <button class="btn">Cancel</button>
+          <button
+            class="btn"
+            onClick="project.createSprint(document.querySelector('.sprint-input').value);document.querySelector('.sprint-input').value = ''; buildSprintsHTML();Screen('.allSprints'); updateBreadCrumb([{name:'Project'}])"
+          >
+            Save
+          </button>
+          <button
+            class="btn"
+            onCLick="document.querySelector('.sprint-input').value = '';Screen('.allSprints'); updateBreadCrumb([{name:'Project'}])"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

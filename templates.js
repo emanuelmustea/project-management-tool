@@ -19,9 +19,9 @@ var template = {
         </div>`;
   },
   breadcrumbLink: obj => {
-    return `<a href="#" class="link-build" onClick="Screen('${obj.link}')">${
-      obj.name
-    }</a>`;
+    return `<a href="#" class="link-build" onClick='Screen("${
+      obj.link
+    }"); updateBreadCrumb(${obj.newArray})'>${obj.name}</a>`;
   },
   breadcrumbText: obj => {
     return `<span href="#" class="link-build">${obj.name}</span>`;
