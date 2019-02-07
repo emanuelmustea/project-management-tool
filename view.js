@@ -1,3 +1,6 @@
+/*
+ * Contains all scripts for displaying updating the html
+ */
 //updates the view with the name
 setName = name => {
   document.querySelector(".userName").innerHTML = name;
@@ -6,7 +9,7 @@ setName = name => {
 buildSprintsHTML = () => {
   target = document.querySelector(".allSprints");
   if (sprints.length == 0) {
-    target.innerHTML = `<div class="no-sprints">No sprints yet</div>`;
+    target.innerHTML = template.noSprints();
   } else {
   }
 };
@@ -17,6 +20,22 @@ Screen = selector => {
     screen.style.display = "none";
   }
   document.querySelector(selector).style.display = "block";
+};
+//Automatically updates the breadcrumb of the application
+updateBreadCrumb = array => {
+  var breadcrumb = document.querySelector(".breadcrumb");
+  breadcrumb.innerHTML = "";
+  for (let element of array) {
+    if (element.link)
+      breadcrumb.innerHTML += template.breadcrumbLink({
+        name: element.name,
+        link: element.link
+      });
+    else
+      breadcrumb.innerHTML += template.breadcrumbText({
+        name: element.name
+      });
+  }
 };
 //create an user with given name
 var userName = "User 1";

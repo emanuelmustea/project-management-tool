@@ -36,11 +36,11 @@ html {
 .clearfix {
   clear: both;
 }
-.link > a {
+.breadcrumb > a {
   color: #2980b9;
   text-decoration: none;
 }
-.link > a:before {
+.breadcrumb > a:after {
   content: ">";
   color: #888;
   margin: 0px 5px;
@@ -58,7 +58,15 @@ html {
 .btn:hover {
   background: #bbb;
 }
-.sprint {
+.input {
+  display: block;
+  width: 30%;
+  padding: 6px 10px;
+  font-weight: 700;
+  margin: 10px 0px;
+}
+.sprint,
+.createSprint {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
