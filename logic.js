@@ -10,8 +10,8 @@ var status = [
 var users = []; // an array of all users
 var sprints = []; // an array containing all sprints
 var issues = []; // an array containing all issues
-var tasks = []; // an array containing all issues
-var comments = []; // an array containing all issues
+var tasks = []; // an array containing all tasks
+var comments = []; // an array containing all comments
 
 // function that generates an unique id per application
 ID = () => {
@@ -179,11 +179,3 @@ class Comment {
     return this.id;
   }
 }
-/*
-var project = new Project();
-project.createSprint("mama");
-sprints[0].createIssue("BUG", "Mama mia", 1, 1, "Description of this issue");
-console.log(sprints);
-console.log(project);
-console.log(issues);
-*/

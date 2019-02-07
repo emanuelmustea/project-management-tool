@@ -54,19 +54,35 @@ html {
   cursor: pointer;
   outline: 0 transparent;
   transition: 0.225s;
+  margin: 0px 2px;
 }
 .btn:hover {
   background: #bbb;
 }
 .input {
-  display: block;
+  display: inline-block;
   width: 30%;
   padding: 6px 10px;
   font-weight: 700;
   margin: 10px 0px;
 }
+.overview {
+  padding: 10px 20px;
+}
+.overview > .sprints,
+.overview > .issues {
+  padding: 10px 0px;
+}
+.overview > * > a {
+  font-size: 16px;
+  color: #2980b9;
+}
 .sprint,
 .createSprint {
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.2);
+}
+.createIssue {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
@@ -85,4 +101,23 @@ html {
   padding: 20px;
   color: #777;
   text-align: center;
+}
+.features-icon,
+.bugs-icon,
+.tasks-icon {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 8px;
+  vertical-align: center;
+  margin: 2px 5px;
+}
+.features-icon {
+  background: #16a085;
+}
+.bugs-icon {
+  background: #c0392b;
+}
+.tasks-icon {
+  background: #2c3e50;
 }

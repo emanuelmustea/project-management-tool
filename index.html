@@ -21,32 +21,66 @@
         </span>
         <button
           class="btn right"
-          onClick="Screen('.createSprint'); updateBreadCrumb([{name:'Project', link: '.allSprints'}, {name: 'Create Sprint'}])"
+          onClick="Screen('.createSprint'); updateBreadCrumb([{name:'Project', link: '.overview'}, {name: 'Create Sprint'}])"
         >
           <b>+</b> Create Sprint
         </button>
+        <button
+          class="btn right"
+          onClick="Screen('.createIssue'); updateBreadCrumb([{name:'Project', link: '.overview'}, {name: 'Create Issue'}])"
+        >
+          <b>+</b> Create Issue
+        </button>
       </div>
       <div class="project">
-        <div class="screen allSprints" style="display: block"></div>
-        <div class="screen createSprint" style="display:none">
+        <div class="screen overview" style="display:block"></div>
+        <div class="screen allIssues" style="display: none"></div>
+        <div class="screen allSprints" style="display: none"></div>
+        <div class="screen singleSprints" style="display: none"></div>
+        <div class="screen createSprint" style="display: none">
           <label>
-            Sprint name
+            Name
             <input
               class="input sprint-input"
               type="text"
-              placeholder="enter the name of the sprint"
+              placeholder=""
+              autofocus
             />
           </label>
-
+          <br />
           <button
             class="btn"
-            onClick="project.createSprint(document.querySelector('.sprint-input').value);document.querySelector('.sprint-input').value = ''; buildSprintsHTML();Screen('.allSprints'); updateBreadCrumb([{name:'Project'}])"
+            onClick="if(document.querySelector('.sprint-input').value.length == 0) return;project.createSprint(document.querySelector('.sprint-input').value);document.querySelector('.sprint-input').value = ''; buildOverviewHTML();Screen('.overview'); updateBreadCrumb([{name:'Project'}])"
           >
             Save
           </button>
           <button
             class="btn"
-            onCLick="document.querySelector('.sprint-input').value = '';Screen('.allSprints'); updateBreadCrumb([{name:'Project'}])"
+            onCLick="document.querySelector('.sprint-input').value = '';Screen('.overview'); updateBreadCrumb([{name:'Project'}])"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="screen createIssue" style="display: none">
+          <label>
+            Name
+            <input
+              class="input issue-input"
+              type="text"
+              placeholder=""
+              autofocus
+            />
+          </label>
+          <br />
+          <button
+            class="btn"
+            onClick="if(document.querySelector('.sprint-input').value.length == 0) return;project.createSprint(document.querySelector('.sprint-input').value);document.querySelector('.sprint-input').value = ''; buildOverviewHTML();Screen('.overview'); updateBreadCrumb([{name:'Project'}])"
+          >
+            Save
+          </button>
+          <button
+            class="btn"
+            onCLick="document.querySelector('.sprint-input').value = '';Screen('.overview'); updateBreadCrumb([{name:'Project'}])"
           >
             Cancel
           </button>

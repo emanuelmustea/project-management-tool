@@ -5,6 +5,9 @@
 setName = name => {
   document.querySelector(".userName").innerHTML = name;
 };
+queryTarget = query => {
+  return document.querySelector(query);
+};
 //get features, bugs and tasks of each sprint
 sprintData = id => {
   let features = 0;
@@ -21,7 +24,7 @@ sprintData = id => {
 };
 //make a list of all sprints with the proper html template
 buildSprintsHTML = () => {
-  target = document.querySelector(".allSprints");
+  target = queryTarget(".allSprints");
   if (sprints.length == 0) {
     target.innerHTML = template.noSprints();
   } else {
@@ -38,13 +41,25 @@ buildSprintsHTML = () => {
     }
   }
 };
+//builds the HTML for overview(default) screen
+buildOverviewHTML = () => {
+  target = queryTarget(".overview");
+  target.innerHTML = template.overview({
+    issues: issues.length,
+    sprints: sprints.length
+  });
+};
+//builds HTML code for given sprint
+buildSingleSprint = id => {
+  Screen(".singleSprint");
+};
 //switches between multiple divs having class .screen and another "selector" class
 Screen = selector => {
   var screens = document.querySelectorAll(".screen");
   for (let screen of screens) {
     screen.style.display = "none";
   }
-  document.querySelector(selector).style.display = "block";
+  queryTarget(selector).style.display = "block";
 };
 //build the link for every element of the breadcrumb
 buildBreadCrumbArray = (array, lastElement) => {
@@ -61,7 +76,7 @@ buildBreadCrumbArray = (array, lastElement) => {
 };
 //Automatically updates the breadcrumb of the application
 updateBreadCrumb = array => {
-  var breadcrumb = document.querySelector(".breadcrumb");
+  var breadcrumb = queryTarget(".breadcrumb");
   breadcrumb.innerHTML = "";
   for (let element of array) {
     if (element.link)
@@ -84,4 +99,4 @@ setName(userName);
 
 //create the project
 var project = new Project();
-buildSprintsHTML();
+buildOverviewHTML();
