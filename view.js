@@ -222,7 +222,7 @@ updateIssue = id => {
   var name = queryTarget(".update-name-input").value;
   var description = queryTarget(".update-description-input").value;
   var sprint = queryTarget(".update-sprint-input").value;
-  var status = queryTarget(".update-status-input").value;
+  var stat = queryTarget(".update-status-input").value;
   let validation = validateIssue(name, description, "aaa", "aaa");
   var error = queryTarget(".updateIssuesError");
   if (validation.length > 0) {
@@ -233,12 +233,13 @@ updateIssue = id => {
     error.style.display = "none";
     getIssue(id).update(
       name,
-      sprint,
-      status,
+      parseInt(sprint),
+      parseInt(stat),
       description.replace(/(?:\r\n|\r|\n)/g, "<br>")
     );
     buildSingleIssue(id);
   }
+  console.log(issues);
 };
 //switches between multiple divs having class .screen and another "selector" class
 Screen = selector => {
