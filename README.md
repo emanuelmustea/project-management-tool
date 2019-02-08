@@ -1,6 +1,6 @@
 # Project Management Tool App
 
-By Emanuel Mustea
+By Emanuel Mustea 
 
 `logic.js` contains all models of the application. The logic part doesn't contains any HTML code and doesn't change any UI elements. Can be used without the UI part.
 
