@@ -80,7 +80,12 @@ class Issue {
   get getSubTasks() {
     return this.tasks;
   }
-  update(name, sprint, status, description) {
+  update(
+    name = this.name,
+    sprint = this.sprint,
+    status = this.status,
+    description = this.description
+  ) {
     //change updatedAt and updateCount
     this.updatedAt = new Date();
     this.updateCount++;

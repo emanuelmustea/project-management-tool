@@ -90,7 +90,8 @@ select {
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
 .createIssue,
-.updateIssue {
+.updateIssue,
+.createSubtask {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }

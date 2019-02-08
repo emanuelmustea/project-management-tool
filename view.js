@@ -176,6 +176,21 @@ buildSingleIssue = id => {
   var issue = getIssue(id);
   var target = queryTarget(".singleIssue");
   Screen(".singleIssue");
+  var subtasks = "";
+  if (issue.tasks.length > 0) {
+    for (let task of issue.tasks) {
+      var taskData = getTask(task);
+      subtasks += template.subtask({
+        id: task,
+        parentId: id,
+        createdAt: taskData.createdAt,
+        updatedAt: taskData.updatedAt,
+        name: taskData.name,
+        description: taskData.description,
+        status: taskData.status
+      });
+    }
+  }
   target.innerHTML = template.singleIssue({
     id: issue.ID,
     name: issue.name,
@@ -188,12 +203,14 @@ buildSingleIssue = id => {
     createdAt: issue.createdAt,
     updatedAt: issue.updatedAt,
     description: issue.description,
-    subtasks: null
+    subtasks: subtasks
   });
   updateBreadCrumb([
     { name: "Project", link: ".overview" },
     { name: "Issue '" + issue.name + "'" }
   ]);
+  console.log(issue.ID);
+  console.log(issues, tasks);
 };
 //build code for issue update screen by given id
 buildUpdateIssue = id => {
@@ -215,7 +232,32 @@ buildUpdateIssue = id => {
   ]);
 };
 buildCreateSubtask = id => {
-  console.log(id);
+  var issue = getIssue(id);
+  var target = queryTarget(".createSubtask");
+  Screen(".createSubtask");
+  target.innerHTML = template.createSubtask({ id: id });
+  updateBreadCrumb([
+    { name: "Project", link: ".overview" },
+    { name: "Create subtask for '" + issue.name + "'" }
+  ]);
+};
+createSubtask = id => {
+  var issue = getIssue(id);
+  var name = queryTarget(".subtask-name-input").value;
+  var description = queryTarget(".subtask-description-input").value;
+  let validation = validateIssue(name, description, "aaa", "aaa");
+  var error = queryTarget(".subtasksError");
+  if (validation.length > 0) {
+    error.innerHTML =
+      validation + "<br>Please correct all errors before saving again";
+    error.style.display = "block";
+  } else {
+    error.style.display = "none";
+    issue.createSubTask(name, description.replace(/(?:\r\n|\r|\n)/g, "<br>"));
+  }
+  console.log(issue.ID);
+  console.log(issues, tasks);
+  buildSingleIssue(issue.ID);
 };
 //function for updating the issue
 updateIssue = id => {
@@ -296,6 +338,12 @@ getIssue = id => {
 getUser = id => {
   for (let user of users) {
     if (user.ID == id) return user;
+  }
+  return null;
+};
+getTask = id => {
+  for (let task of tasks) {
+    if (task.ID == id) return task;
   }
   return null;
 };

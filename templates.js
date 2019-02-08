@@ -308,5 +308,64 @@ var template = {
     >
       Cancel
     </button>`;
+  },
+  createSubtask: obj => {
+    return `<label>
+    Name
+    <input
+      class="input subtask-name-input"
+      type="text"
+      placeholder=""
+      autofocus
+    />
+  </label>
+  <label>
+    Description
+    <textarea class="input textarea subtask-description-input"></textarea>
+  </label>
+  <br />
+  <div class="subtasksError" style="display:none"></div>
+  <button
+    class="btn"
+    onClick="createSubtask(${obj.id})"
+  >
+    Save
+  </button>
+  <button
+    class="btn"
+    onCLick="buildSingleIssue(${obj.id})"
+  >
+    Cancel
+  </button>`;
+  },
+  subtask: obj => {
+    if (obj.updatedAt == null) {
+      var updatedAt = ``;
+    } else {
+      var updatedAt = `<br />
+          Updated on <b>${obj.updatedAt}</b>`;
+    }
+    return `<div class="issue">
+    <a
+      href="#"
+      class="issue-name"
+      >${obj.name}</a
+    >
+    <span class="type right SUBTASK">SUBTASK</span>
+    <span class="status right ${obj.status}">${obj.status}</span>
+    <div class="clearfix"></div>
+      >Created on <b>${obj.createdAt}</b>
+      ${updatedAt}
+    </span>
+    <br>
+    <div class="description">
+     ${obj.description}
+    </div>
+    <button class="updateSubtask(${obj.id}, ${
+      obj.parentId
+    })"> Update Subtask </button>
+    <div class="clearfix"></div>
+  </div>
+    `;
   }
 };
