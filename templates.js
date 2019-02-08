@@ -254,7 +254,7 @@ var template = {
   </button>
   <button
     class="btn"
-    onCLick="cancelIssue()"
+    onCLick='Screen(".overview"); updateBreadCrumb([{"name":"Project","link":false}])'
   >
     Cancel
   </button>`;
