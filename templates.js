@@ -80,13 +80,15 @@ var template = {
       <span class="status right ${obj.status}">${obj.status}</span>
       <div class="clearfix"></div>
       <span class="subsprint" onClick="buildSingleSprint(${obj.sprint})"
-        >${obj.sprintName}</span
+        ><b>Sprint: </b>${obj.sprintName}</span
       >
       <span class="createdby"
         >Created by <b>${obj.createdBy}</b> on <b>${obj.createdAt}</b>
         ${updatedAt}
       </span><br>
       <span>Assignee: <b>${obj.assignee}</b></span><br>
+      <br>
+      <b><u>Description</u></b>
       <div class="description">
         ${obj.description}
       </div>

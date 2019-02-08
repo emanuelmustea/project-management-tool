@@ -239,7 +239,6 @@ updateIssue = id => {
     );
     buildSingleIssue(id);
   }
-  console.log(issues);
 };
 //switches between multiple divs having class .screen and another "selector" class
 Screen = selector => {
@@ -339,6 +338,11 @@ var userName = "User 1";
 var loggedUser = new User(userName);
 users.push(loggedUser);
 setName(userName);
+
+//create some users for testing
+users.push(new User("User 2"));
+users.push(new User("User 3"));
+users.push(new User("User 4"));
 
 //create the project
 var project = new Project();
