@@ -60,7 +60,7 @@ var template = {
       var updatedAt = `<br />
           Updated on <b>${obj.updatedAt}</b>`;
     }
-    if (obj.subtasks == null && obj.type != "TASK") {
+    if (obj.subtasks == "" && obj.type != "TASK") {
       var subtasks = `<h4>Subtasks</h4>
       <div class="no-issues">No subtasks</div>`;
       var createSubTask = `<button class="btn" onClick="buildCreateSubtask(${
@@ -70,10 +70,17 @@ var template = {
       var subtasks = "";
       var createSubTask = "";
     } else {
-      var subtasks = obj.subtasks;
+      var subtasks = `<h4>Subtasks</h4>` + obj.subtasks;
       var createSubTask = `<button class="btn" onClick="buildCreateSubtask(${
         obj.id
       })"><b>+</b> Create Subtask</button>`;
+    }
+
+    if (obj.comments == "") {
+      var comments = `<h4>Comments</h4>
+      <div class="no-issues">No comments</div>`;
+    } else {
+      var comments = `<h4>Comments</h4>` + obj.comments;
     }
     return `<div class="issue">
       <span class="type right ${obj.type}">${obj.type}</span>
@@ -99,6 +106,15 @@ var template = {
       ${createSubTask}
       <br>
       ${subtasks}
+      <br>
+      ${comments}
+      <br>
+      <b>Add a comment</b>
+      <textarea class="input full-size comment-input" placeholder="Write your comment here"></textarea>
+      <button class="btn right" onClick="saveComment(${
+        obj.id
+      })">Save comment</button>
+      <div class="clearfix"></div>
     </div>`;
   },
   breadcrumbLink: obj => {
@@ -354,18 +370,74 @@ var template = {
     <span class="type right SUBTASK">SUBTASK</span>
     <span class="status right ${obj.status}">${obj.status}</span>
     <div class="clearfix"></div>
-      >Created on <b>${obj.createdAt}</b>
+      Created on <b>${obj.createdAt}</b>
       ${updatedAt}
     </span>
     <br>
     <div class="description">
      ${obj.description}
     </div>
-    <button class="updateSubtask(${obj.id}, ${
+    <br>
+    <button class="btn" onClick="createUpdateSubtask(${obj.id}, ${
       obj.parentId
     })"> Update Subtask </button>
     <div class="clearfix"></div>
   </div>
+    `;
+  },
+  updateSubtask: obj => {
+    var i = 0;
+    var statusList = "";
+    for (let stat of status) {
+      if (i == status.indexOf(obj.status)) {
+        statusList += `<option value="${i}" selected>${stat}</option>`;
+      } else {
+        statusList += `<option value="${i}">${stat}</option>`;
+      }
+      i++;
+    }
+    return `
+    <label>
+      Name
+      <input
+        class="input updatesubtask-name-input"
+        type="text"
+        placeholder=""
+        value="${obj.name}"
+        autofocus
+      />
+    </label>
+    <label>
+      Status
+      <select class="updatesubtask-status-input">
+        ${statusList}
+      </select>
+    </label>
+    <label>
+      Description
+      <textarea class="input textarea updatesubtask-description-input" >${obj.description.replace(
+        /\<br\>/g,
+        "\n"
+      )}</textarea>
+    </label>
+    <br />
+    <div class="updatesubtaskError" style="display:none"></div>
+    <button
+      class="btn"
+      onClick="updateSubtask(${obj.id}, ${obj.parentId})"
+    >
+      Save
+    </button>
+    <button
+      class="btn"
+      onCLick="buildSingleIssue(${obj.parentId})"
+    >
+      Cancel
+    </button>`;
+  },
+  comment: obj => {
+    return `
+    <div class="comment">${obj.name}</div>
     `;
   }
 };

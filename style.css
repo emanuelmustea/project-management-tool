@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+@import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700");
 
 html {
   background: #ecf0f1;
@@ -6,7 +6,7 @@ html {
 * {
   box-sizing: border-box;
   color: #333;
-  font-family: "Roboto", sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 .card {
   position: absolute;
@@ -91,7 +91,8 @@ select {
 }
 .createIssue,
 .updateIssue,
-.createSubtask {
+.createSubtask,
+.updateSubtask {
   padding: 10px 20px;
   border-bottom: 1px solid rgba(150, 150, 150, 0.2);
 }
@@ -132,7 +133,8 @@ select {
   background: #2c3e50;
 }
 .issuesError,
-.updateIssuesError {
+.updateIssuesError,
+.updatesubtaskError {
   background: #c0392b;
   color: #fff;
   padding: 10px 10px;
@@ -173,6 +175,10 @@ select {
   color: #fff;
   background: #2c3e50;
 }
+.issue > .type.SUBTASK {
+  color: #fff;
+  background: #8e44ad;
+}
 .issue > .subsprint {
   display: block;
   color: #2980b9;
@@ -190,4 +196,24 @@ select {
 }
 .subsprint {
   cursor: pointer;
+}
+.full-size {
+  width: 100%;
+}
+.comment {
+  padding: 5px 0px;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.1);
+}
+.comment:before {
+  content: "";
+  width: 5px;
+  display: inline-block;
+  height: 5px;
+  border-radius: 5px;
+  background: #333;
+  margin: 0px 10px 2px 0px;
+}
+.issue > .issue {
+  padding-left: 0px;
+  padding-right: 0px;
 }

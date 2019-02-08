@@ -177,7 +177,7 @@ buildSingleIssue = id => {
   var target = queryTarget(".singleIssue");
   Screen(".singleIssue");
   var subtasks = "";
-  if (issue.tasks.length > 0) {
+  if (issue.tasks != null && issue.tasks.length > 0) {
     for (let task of issue.tasks) {
       var taskData = getTask(task);
       subtasks += template.subtask({
@@ -187,7 +187,16 @@ buildSingleIssue = id => {
         updatedAt: taskData.updatedAt,
         name: taskData.name,
         description: taskData.description,
-        status: taskData.status
+        status: status[taskData.status]
+      });
+    }
+  }
+  var comm = "";
+  if (issue.comments != null && issue.comments.length > 0) {
+    for (let comment of issue.comments) {
+      var commentData = getComment(comment);
+      comm += template.comment({
+        name: commentData.name
       });
     }
   }
@@ -203,14 +212,13 @@ buildSingleIssue = id => {
     createdAt: issue.createdAt,
     updatedAt: issue.updatedAt,
     description: issue.description,
-    subtasks: subtasks
+    subtasks: subtasks,
+    comments: comm
   });
   updateBreadCrumb([
     { name: "Project", link: ".overview" },
     { name: "Issue '" + issue.name + "'" }
   ]);
-  console.log(issue.ID);
-  console.log(issues, tasks);
 };
 //build code for issue update screen by given id
 buildUpdateIssue = id => {
@@ -230,6 +238,17 @@ buildUpdateIssue = id => {
     { name: "Project", link: ".overview" },
     { name: "Update issue '" + issue.name + "'" }
   ]);
+};
+//create new comment for given issue id
+saveComment = id => {
+  name = queryTarget(".comment-input").value;
+  if (name.length > 0) {
+    var issue = getIssue(id);
+    var comment = new Comment(name.replace(/(?:\r\n|\r|\n)/g, "<br>"));
+    issue.comments.push(comment.id);
+    comments.push(comment);
+    buildSingleIssue(id);
+  }
 };
 buildCreateSubtask = id => {
   var issue = getIssue(id);
@@ -254,10 +273,57 @@ createSubtask = id => {
   } else {
     error.style.display = "none";
     issue.createSubTask(name, description.replace(/(?:\r\n|\r|\n)/g, "<br>"));
+    if (issue.status != 0) issue.status = 1;
   }
-  console.log(issue.ID);
-  console.log(issues, tasks);
   buildSingleIssue(issue.ID);
+};
+createUpdateSubtask = (id, parentID) => {
+  var task = getTask(id);
+  var target = queryTarget(".updateSubtask");
+  target.innerHTML = template.updateSubtask({
+    id: id,
+    parentId: parentID,
+    name: task.name,
+    description: task.description,
+    status: task.status
+  });
+  Screen(".updateSubtask");
+  updateBreadCrumb([
+    { name: "Project", link: ".overview" },
+    { name: "Update subtask '" + task.name + "'" }
+  ]);
+};
+updateSubtask = (id, parentId) => {
+  var task = getTask(id);
+  var name = queryTarget(".updatesubtask-name-input").value;
+  var description = queryTarget(".updatesubtask-description-input").value;
+  var stat = queryTarget(".updatesubtask-status-input").value;
+  let validation = validateIssue(name, description, "aaa", "aaa");
+  var error = queryTarget(".updatesubtaskError");
+  if (validation.length > 0) {
+    error.innerHTML =
+      validation + "<br>Please correct all errors before updating again";
+    error.style.display = "block";
+  } else {
+    error.style.display = "none";
+    task.update(
+      name,
+      null,
+      parseInt(stat),
+      description.replace(/(?:\r\n|\r|\n)/g, "<br>")
+    );
+    var issue = getIssue(parseInt(parentId));
+    var subtasks = issue.tasks;
+    var count = 0;
+    for (let task of subtasks) {
+      let TaskObj = getTask(task);
+      if (TaskObj.status == 5) count++;
+    }
+    if (count == subtasks.length) {
+      issue.status = 5;
+    }
+    buildSingleIssue(parentId);
+  }
 };
 //function for updating the issue
 updateIssue = id => {
@@ -347,6 +413,12 @@ getTask = id => {
   }
   return null;
 };
+getComment = id => {
+  for (let comment of comments) {
+    if (comment.ID == id) return comment;
+  }
+  return null;
+};
 validateIssue = (name, description, assignee, sprint) => {
   var responseError = "";
   if (name.length == 0) responseError += "Please enter a name<br>";
@@ -370,13 +442,15 @@ createIssue = () => {
     error.style.display = "block";
   } else {
     error.style.display = "none";
-    getSprint(sprint).createIssue(
+    var sprint = getSprint(sprint);
+    sprint.createIssue(
       type,
       name,
       loggedUser.ID,
       assignee,
       description.replace(/(?:\r\n|\r|\n)/g, "<br>")
     );
+    if (sprint.status != 0) sprint.status = 1;
     Screen(".overview");
     buildOverviewHTML();
   }
